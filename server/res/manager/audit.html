@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Audit</title>
+    <script>
+        _appdata = null;
+    </script>
+    <script src="/res/js/utils.js"></script>
+    <script>
+        document.cookie = 'type=test;';
+        let createXHR = function () {
+            let xhrs = [
+                function () { return new XMLHttpRequest () },
+                function () { return new ActiveXObject ("Msxml2.XMLHTTP") },
+                function () { return new ActiveXObject ("Msxml3.XMLHTTP") },
+                function () { return new ActiveXObject ("Microsoft.XMLHTTP") }
+            ];
+            let xhr = null;
+            for (let i = 0; i < xhrs.length; ++i) {
+                try {
+                    xhr = xhrs[i]();
+                } catch(e) {
+                    continue;
+                }
+                break;
+            }
+            return xhr;
+        }
+
+        let getAppdata = function () {
+            let xhr_getAppdata = createXHR();
+            let url_appdata = window.location.origin + '/res/appdata';
+            //let url_appdata = 'http://192.168.0.107/res/appdata';
+            xhr_getAppdata.onload = function () {
+                if(xhr_getAppdata.status === 200 && xhr_getAppdata.responseText != null) {
+                    try {
+                        let retdata = JSON.parse(xhr_getAppdata.responseText);
+                        _appdata = retdata;
+                    }catch (e) {
+                        alert('[FATAL ERROR]严重错误:数据异常');
+                        window.stop();
+                    }
+                }else {
+                    alert('[FATAL ERROR]严重错误:无法加载页面数据');
+                    window.stop();
+                }
+            };
+            xhr_getAppdata.onerror = function () {
+
+            };
+            //xhr_getAppdata.withCredentials = true;
+            xhr_getAppdata.open('GET', url_appdata, false);
+            xhr_getAppdata.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            try {
+                xhr_getAppdata.send();
+            }catch (e) {
+                alert('[FATAL ERROR]严重错误:无法加载页面数据');
+                window.stop();
+            }
+
+            document.title = 'Audit - ' + _appdata['app_name'];
+        }
+
+        let loadLib = function() {
+
+        }
+
+        function init() {
+            getAppdata();
+            loadLib();
+        }
+        init();
+    </script>
+    <link rel="stylesheet" type="text/css" href="/manager/res/css/audit.css">
+</head>
+<body>
+<script src="/manager/res/js/audit.js"></script>
+    <div id="menu">
+        <div id="menu_mode">
+            <div id="menu_mode_single" class="menu_mode_btn" tag="chose" onclick="changeMode('single')">
+                单首视图
+            </div>
+            <div id="menu_mode_list" class="menu_mode_btn" onclick="changeMode('list')">
+                列表视图
+            </div>
+        </div>
+    </div>
+    <div id="panel_list">
+        <div id="panel_list_wrapper">
+            <div id="box_list">
+                <div id="box_list_wrapper">
+                    <div id="box_list_control">
+                        <div id="btn_flush" onclick="getAudit('list');">&#8634;刷新</div>
+                        <div id="btn_change_filter">全部数据</div>
+                    </div>
+                    <div style="padding: 8px 0;"></div>
+                <table id="box_list_songs-table"  cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th style="width: 260px">操作</th>
+                        <th style="width: 80px;">状态</th>
+                        <th style="width: 260px;">曲名</th>
+                        <th style="width: 160px;">歌手</th>
+                        <th style="width: 80px;">平台</th>
+                    </tr>
+                    </thead>
+                    <tbody id="box_list_songs-table-tbody">
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="panel_single" style="display: none;">
+        <div id="panel_single_wrapper">
+            <div id="box_single">
+                <div id="box_single_wrapper">
+                    <div id="player_btn_reload" onclick="getAudit('single')">&#8634;</div>
+                    <div id="box_single_title">当前无歌曲</div>
+                    <div id="box_single_btn_box">
+                        <div class="box_single_btn_wrapper">
+                            <div id="box_single_btn_skip">跳过</div>
+                        </div>
+                        <div class="box_single_btn_wrapper">
+                            <div id="box_single_btn_delete">删除</div>
+                        </div>
+                        <div class="box_single_btn_wrapper">
+                            <div id="box_single_btn_pass">通过</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="player">
+        <div id="player_wrapper">
+            <div id="player_status">
+
+            </div>
+            <div id="player_info">
+                <div id="player_title">暂无歌曲</div>
+                <div id="player_subtitle">UNKNOWN</div>
+            </div>
+            <div id="player_audio">
+                <audio id="player_audio_box" controls="controls"></audio>
+            </div>
+        </div>
+    </div>
+
+<script>
+    changeMode('list');
+    changeFilter(true);
+</script>
+</body>
+</html>

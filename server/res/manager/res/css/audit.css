@@ -1,0 +1,297 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#menu {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    min-height: 80px;
+    max-height: 150px;
+    height: 8vh;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+
+#menu_mode {
+    display: flex;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+    background: #EAEAEA;
+    border-radius: 64px;
+    -webkit-border-radius: 64px;
+    overflow: hidden;
+    box-shadow: 0 0 5px #888888;
+    -webkit-box-shadow: 0 0 5px #888888;
+    min-height: 50px;
+    max-height: 120px;
+    height: 6vh;
+    min-width: 400px;
+    max-width: 800px;
+    width: 80vw;
+}
+
+#player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 120px;
+    max-height: 260px;
+    height: 14vh;
+    background: #EAEAEA;
+    box-shadow: 0 0 5px #888888;
+    -webkit-box-shadow: 0 0 5px #888888;
+}
+
+#player_wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#player_info {
+    position: absolute;
+    top: 4px;
+    height: 64px;
+    left: 128px;
+    right: 40%;
+}
+
+#player_audio {
+    position: absolute;
+    top: 70px;
+    bottom: 4px;
+    left: 128px;
+    right: 40%;
+}
+
+#player_audio_box {
+    width: 100%;
+}
+
+#player_title {
+    color: #161616;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#player_subtitle {
+    color: #646464;
+    font-size: 18px;
+}
+
+#box_list {
+    position: absolute;
+    top: 8%;
+    bottom: 14%;
+    display: grid;
+    left: 8%;
+    right: 8%;
+    justify-items: center;
+    overflow-y: scroll;
+}
+
+.menu_mode_btn {
+    height: 100%;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    width: 100%;
+    color: #161616;
+    font-weight: bold;
+}
+
+.menu_mode_btn[tag=chose] {
+    background: #9796f0;
+    color: #EAEAEA;
+}
+
+#panel_single, #panel_list {
+    position: fixed;
+    top: 60px;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+}
+
+#panel_list_wrapper, #panel_single_wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#box_single {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    background: #9796f0;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    box-shadow: 0 0 8px #888888;
+    -webkit-box-shadow: 0 0 8px #888888;
+    min-height: 400px;
+    max-height: 880px;
+    height: 80%;
+    width: 90%;
+}
+
+#box_single_wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#box_single_title {
+    position: absolute;
+    left: 128px;
+    right: 16px;
+    top: 16px;
+    color: #EAEAEA;
+    font-weight: bold;
+    font-size: 72px;
+    text-shadow: 0 0 2px #888888;
+    word-break: break-all;
+
+}
+
+#player_btn_reload {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    color: #EAEAEA;
+    width: 90px;
+    height: 90px;
+    font-size: 90px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#box_single_btn_box {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    justify-content: center;
+}
+
+.box_single_btn_wrapper {
+    padding: 16px;
+    color: #EAEAEA;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#box_single_btn_delete {
+    border-radius: 64px;
+    background: #FA3232;
+    padding: 16px 8px;
+    width: 400px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#box_single_btn_pass {
+    border-radius: 64px;
+    background: #328032;
+    padding: 16px 8px;
+    width: 400px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#box_single_btn_skip {
+    border-radius: 64px;
+    background: #EAEAEA;
+    color: #455480;
+    padding: 16px 8px;
+    width: 400px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#box_list_songs-table {
+    border: 0;
+    font-size: 21px;
+    text-align: left;
+    color: #323232;
+}
+#box_list_songs-table thead {
+    background: #9796f0;
+    color: #FAFAFA;
+    text-shadow: 0 0 5px #888888;
+    box-shadow: 0 0 5px #888888;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+}
+#box_list_songs-table th {
+    padding: 8px;
+    border: 0;
+}
+#box_list_songs-table td {
+    padding: 0 8px;
+    border: 0;
+}
+#box_list_songs-table tr {
+    height: 50px;
+}
+#box_list_songs-table-tbody {
+
+}
+
+#page-album_songs-table-tbody tr:hover {
+    background: #9796f032;
+}
+
+#audit_op {
+    text-decoration: underline;
+    padding: 0 8px;
+    cursor: pointer;
+}
+
+#audit_op[tag=pass] {
+    color: #328032;
+}
+
+#audit_op[tag=op] {
+    color: #9796f0;
+}
+
+#audit_op[tag=del] {
+    color: #FA3232;
+}
+
+#box_list_control {
+    display: flex;
+    height: 32px;
+    background: #EAEAEA;
+    border-radius: 4px;
+    box-shadow: 0 0 4px #888888;
+    font-size: 22px;
+    color: #323232;
+}
+
+#btn_flush {
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+#btn_change_filter {
+    cursor: pointer;
+    padding: 0 8px;
+}

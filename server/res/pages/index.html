@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>App</title>
+    <script>
+        _appdata = null;
+    </script>
+    <script src="/res/js/utils.js"></script>
+    <script>
+        document.cookie = 'type=test;';
+        let createXHR = function () {
+            let xhrs = [
+                function () { return new XMLHttpRequest () },
+                function () { return new ActiveXObject ("Msxml2.XMLHTTP") },
+                function () { return new ActiveXObject ("Msxml3.XMLHTTP") },
+                function () { return new ActiveXObject ("Microsoft.XMLHTTP") }
+            ];
+            let xhr = null;
+            for (let i = 0; i < xhrs.length; ++i) {
+                try {
+                    xhr = xhrs[i]();
+                } catch(e) {
+                    continue;
+                }
+                break;
+            }
+            return xhr;
+        }
+
+       let getAppdata = function () {
+            let xhr_getAppdata = createXHR();
+            let url_appdata = window.location.origin + '/res/appdata';
+            //let url_appdata = 'http://192.168.0.107/res/appdata';
+            xhr_getAppdata.onload = function () {
+                if(xhr_getAppdata.status === 200 && xhr_getAppdata.responseText != null) {
+                    try {
+                        let retdata = JSON.parse(xhr_getAppdata.responseText);
+                        _appdata = retdata;
+                    }catch (e) {
+                        alert('[FATAL ERROR]严重错误:数据异常');
+                        window.stop();
+                    }
+                }else {
+                    alert('[FATAL ERROR]严重错误:无法加载页面数据');
+                    window.stop();
+                }
+            };
+            xhr_getAppdata.onerror = function () {
+
+            };
+            //xhr_getAppdata.withCredentials = true;
+            xhr_getAppdata.open('GET', url_appdata, false);
+            xhr_getAppdata.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            try {
+                xhr_getAppdata.send();
+            }catch (e) {
+                alert('[FATAL ERROR]严重错误:无法加载页面数据');
+                window.stop();
+            }
+
+            document.title = _appdata['app_name'];
+        }
+
+        let loadLib = function() {
+
+        }
+
+        function init() {
+            getAppdata();
+            loadLib();
+        }
+    </script>
+    <script>
+        function unfold_album(element) {
+            if(element.offsetWidth < element.offsetHeight) {
+                element.style.width = '480px';
+                element.getElementsByClassName('rec-album-logo')[0].style.opacity = '0';
+                element.getElementsByClassName('rec-album-more')[0].style.left = '20px';
+            }else {
+                element.style.width = '90px';
+                element.getElementsByClassName('rec-album-logo')[0].style.opacity = '1';
+                element.getElementsByClassName('rec-album-more')[0].style.left = '90px';
+            }
+        }
+    </script>
+    <script>
+        init();
+    </script>
+    <link rel="stylesheet" type="text/css" href="/res/css/main.css" />
+    <!--<script src="/res/js/anime.min.js"></script>-->
+</head>
+<body>
+    <div id="main">
+
+        <div id="top-box">
+            <div id="top-title"></div>
+            <div class="search-box">
+                <input id="search_container" class="search-txt" type="text" placeholder="搜索单曲">
+                <a id="search-btn" class="search-btn">
+                    <svg class="icon" viewBox="0 0 1024 1024" width="30px"><path d="M424.024 766.098c-91.619 0-177.754-35.679-242.538-100.464-133.735-133.737-133.735-351.344 0-485.078 64.784-64.784 150.919-100.462 242.538-100.462s177.754 35.677 242.539 100.462c133.733 133.735 133.735 351.34 0 485.078-64.785 64.783-150.922 100.464-242.539 100.464zM424.024 196.085c-60.637 0-117.643 23.613-160.523 66.489-88.512 88.51-88.51 232.53 0 321.040 42.876 42.876 99.885 66.491 160.523 66.491s117.643-23.614 160.523-66.491c88.51-88.51 88.51-232.53 0-321.040-42.876-42.876-99.885-66.489-160.523-66.489z" fill="#FAFAFA" p-id="1176"></path><path d="M886.838 943.904c-14.842 0-29.684-5.663-41.010-16.986l-261.286-261.285c-22.647-22.649-22.647-59.369 0-82.018 22.647-22.647 59.37-22.647 82.018 0l261.286 261.286c22.647 22.649 22.647 59.369 0 82.018-11.325 11.322-26.167 16.985-41.010 16.985z" fill="#FAFAFA" p-id="1177"></path></svg>
+                </a>
+            </div>
+        </div>
+
+        <div id="widget_rec-album">
+            <div id="widget_rec-album-title">
+                推荐的专辑
+            </div>
+            <div id="widget_rec-album_bg">
+                R E C O M M E N D &nbsp;&nbsp; A L B U M
+            </div>
+            <div id="widget_rec-album_container">
+                <div id="widget_rec-album_list">
+
+                    <!--<div class="rec-album-box" onclick="unfold_album(this);">-->
+                    <!--
+                    <div class="rec-album-box-hover">
+                        <img class="rec-album-poster" src="/res/img/poster_jay.jpeg" />
+                        <img class="rec-album-logo" src="/res/img/jay_logo.png" />
+                        <div class="rec-album-more">
+                            <div class="rec-album-more-container">
+                                <div class="rec-album-title" style="position: absolute;left: 20px;top: 20px;">「周杰伦」系列</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 64px;">“我的音符全部是未来艺术”</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 128px;">精选周杰伦歌曲20曲</div>
+                                <div id="rec-album_btn_jay" class="rec-album-btn" style="position: absolute;left: 260px;bottom: 20px;">
+                                    查看专辑
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 20px;"></div>
+                    -->
+
+                    <!--<div class="rec-album-box" onclick="unfold_album(this);">-->
+                    <div class="rec-album-box-hover">
+                        <img class="rec-album-poster" src="/res/img/poster_genshin.jpg" />
+                        <img class="rec-album-logo" src="/res/img/genshin_logo.png" />
+                        <div class="rec-album-more">
+                            <div class="rec-album-more-container">
+                                <div class="rec-album-title" style="position: absolute;left: 20px;top: 20px;">「原神」系列</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 64px;">跨越尘世的探索之旅</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 128px;">精选官方BGM、同人曲、二创曲共20曲！</div>
+                                <div id="rec-album_btn_genshin" class="rec-album-btn" onclick="window.location.href = '/page/album?album=genshin';" style="position: absolute;left: 260px;bottom: 20px;">
+                                    查看专辑
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 20px;"></div>
+
+                    <div class="rec-album-box-hover">
+                        <img class="rec-album-poster" src="/res/img/poster_honkai.jpg" />
+                        <img class="rec-album-logo" src="/res/img/honkai_logo.png" />
+                        <div class="rec-album-more">
+                            <div class="rec-album-more-container">
+                                <div class="rec-album-title" style="position: absolute;left: 20px;top: 20px;">「崩坏3」系列</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 64px;">为世界上所有的美好而战</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 128px;">精选官方BGM、同人曲、二创曲共20曲！</div>
+                                <div id="rec-album_btn_honkai" class="rec-album-btn" onclick="window.location.href = '/page/album?album=honkai';" style="position: absolute;left: 260px;bottom: 20px;">
+                                    查看专辑
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 20px;"></div>
+
+                    <div class="rec-album-box-hover">
+                        <img class="rec-album-poster" src="/res/img/poster_minecraft.jpg" />
+                        <img class="rec-album-logo" src="/res/img/minecraft_logo.png" />
+                        <div class="rec-album-more">
+                            <div class="rec-album-more-container">
+                                <div class="rec-album-title" style="position: absolute;left: 20px;top: 20px;">「我的世界」系列</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 64px;">探索自己独一无二的世界</div>
+                                <div class="rec-album-subtitle" style="position: absolute;left: 52px;top: 128px;">那些熟悉但叫不上名的背景音乐</div>
+                                <div id="rec-album_btn_minecraft" class="rec-album-btn" onclick="window.location.href = '/page/album?album=minecraft';" style="position: absolute;left: 260px;bottom: 20px;">
+                                    查看专辑
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="widget_current-list">
+            <div id="current-list_title">
+                当前排队的歌曲
+            </div>
+
+            <div id="current-list_info_box">
+                <div style="text-align: center;padding:16px;">
+                    <div class="current-list_info_bar">当前排队歌曲共&nbsp;<object id="current-list_info_song-count" style="font-weight: bold;font-size: 24px;">0</object>&nbsp;首</div>
+                    <div style="color: #323232;font-size: 18px;">预计排队&nbsp;<object id="current-list_info_song-time" style="font-weight: bold;font-size: 20px;">0</object>&nbsp;分钟</div>
+                </div>
+                <div style="text-align: center;padding:16px;">
+                    <div class="current-list_info_bar"><object id="current-list_info_song-current-name">暂未播放</object></div>
+                    <div style="color: #323232;font-size: 18px;">正在播放</div>
+                </div>
+                <div style="text-align: center;padding:16px;">
+                    <div class="current-list_info_bar"><object id="current-list_info_song-next-name">暂无</object></div>
+                    <div style="color: #323232;font-size: 18px;">下一首播放</div>
+                </div>
+                <div style="text-align: center;padding:16px;">
+                    <div class="current-list_info_bar"><object id="current-list_info_song-last-name">暂无</object></div>
+                    <div style="color: #323232;font-size: 18px;">最新点歌</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="widget_comment">
+            <div id="comment_title">
+                没有想要的歌曲？
+            </div>
+            <div style="position: absolute;display: flex;left: 0;right: 0;top: 100px;justify-content: center;">
+                <div class="comment-box">
+                    <input id="comment_input" class="comment-txt" type="text" placeholder="提交歌名">
+                    <a class="comment-btn"  onclick="pushCustom();">
+                        <svg class="icon" viewBox="0 0 1024 1024" width="40px">
+                            <path d="m680.72121,758.64574c-19.12975,0 -38.2595,-7.299 -52.8575,-21.89314l-336.7697,-336.76841c-29.18956,-29.19214 -29.18956,-76.52029 0,-105.71243c29.18956,-29.18956 76.52158,-29.18956 105.71243,0l336.7697,336.7697c29.18956,29.19214 29.18956,76.52029 0,105.71243c-14.59671,14.59285 -33.72646,21.89185 -52.8575,21.89185l0.00258,0l-0.00001,0z" fill="#fafafa" p-id="1177" id="svg_1" transform="rotate(45, 512.335, 515.512)" stroke-width="0"></path>
+                            <path d="m773.70892,572.87981c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z" fill="#fafafa" p-id="1177" id="svg_2" stroke-width="0"></path>
+                            <path d="m511.57974,573.61084c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z" fill="#fafafa" p-id="1177" id="svg_3" stroke-width="0" transform="rotate(90, 380.935, 384.973)"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function pushCustom() {
+            let name = document.getElementById('comment_input').value;
+            utils.xhrSend('GET', '/api/push_custom?name=' + name, null, null, function (xhr) {
+                if(xhr.status === 200 && xhr.responseText != null){
+                    try{
+                        data = JSON.parse(xhr.responseText);
+                        if(data['code'] === 0) {
+                            alert('提交成功！');
+                        }else {
+                            alert('提交失败');
+                        }
+                    }catch (e) {
+                        alert('提交失败');
+                    }
+                }else{
+                    alert('提交失败');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        document.getElementById('top-title').innerText = document.title;
+
+        /*
+        document.getElementById('rec-album_btn_jay').addEventListener("click", function (event) {
+            event.cancelBubble = true;
+            window.location.href = '/page/album?album=jay';
+        });
+
+         */
+        /*
+        document.getElementById('rec-album_btn_genshin').addEventListener("click", function (event) {
+            event.cancelBubble = true;
+            window.location.href = '/page/album?album=genshin';
+        });
+         */
+
+        function search() {
+            let key = document.getElementById('search_container').value;
+            if(key === '') {
+                return;
+            }
+            document.location.href = '/page/search?key=' + key;
+        }
+
+        document.getElementById('search-btn').onclick = function () {
+            search();
+        };
+
+        document.getElementById('search_container').onkeydown = function (ev) {
+            if(ev.keyCode == 13) {
+                search();
+            }
+        }
+        
+    </script>
+
+    <script>
+        let utils = new Utils();
+        function flush_sdata() {
+            let url_queue_number = '/api/queue_number';
+            let url_queue_next = '/api/query_queue?type=next_play';
+            let url_queue_last = '/api/query_queue?type=last';
+            let url_queue_playing = '/api/get_play_status';
+            let dom = document.getElementById('current-list_info_song-count');
+            let dom_time = document.getElementById('current-list_info_song-time');
+            let dom_next_name = document.getElementById('current-list_info_song-next-name');
+            let dom_last_name = document.getElementById('current-list_info_song-last-name');
+            let dom_current_name = document.getElementById('current-list_info_song-current-name');
+            utils.xhrSend('GET', url_queue_number, {}, null, function (xhr) {
+                if(xhr.status === 200 && xhr.responseText != null){
+                    try{
+                        data = JSON.parse(xhr.responseText);
+                        dom.innerText = data['ret'];
+                        dom_time.innerText = data['ret']*4;
+                    }catch (e) {
+                        dom.innerText = '?';
+                        dom_time.innerText = '?';
+                    }
+                }else{
+                    dom.innerText = '?';
+                    dom_time.innerText = '?';
+                }
+            });
+
+            utils.xhrSend('GET', url_queue_last, {}, null, function (xhr) {
+                if(xhr.status === 200 && xhr.responseText != null){
+                    try{
+                        data = JSON.parse(xhr.responseText);
+                        dom_last_name.innerText = data['data']['mname'] || '暂无';
+                    }catch (e) {
+                        dom_last_name.innerText = '暂无';
+                    }
+                }else{
+                    dom_last_name.innerText = '暂无';
+                }
+            });
+
+            utils.xhrSend('GET', url_queue_next, {}, null, function (xhr) {
+                if(xhr.status === 200 && xhr.responseText != null){
+                    try{
+                        data = JSON.parse(xhr.responseText);
+                        dom_next_name.innerText = data['data']['mname'] || '暂无';
+                    }catch (e) {
+                        dom_next_name.innerText = '暂无';
+                    }
+                }else{
+                    dom_next_name.innerText = '暂无';
+                }
+            });
+
+            utils.xhrSend('GET', url_queue_playing, {}, null, function (xhr) {
+                if(xhr.status === 200 && xhr.responseText != null){
+                    try{
+                        data = JSON.parse(xhr.responseText);
+                        dom_current_name.innerText = data['data']['mname'] || '暂未播放';
+                    }catch (e) {
+                        dom_current_name.innerText = '暂未播放';
+                    }
+                }else{
+                    dom_current_name.innerText = '暂未播放';
+                }
+            });
+        }
+        flush_sdata();
+    </script>
+
+</body>
+</html>

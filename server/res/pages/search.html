@@ -1,0 +1,523 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>App</title>
+    <script>
+        _appdata = null;
+        _page_title = '搜索';
+        _param = null;
+        _current_key = null;
+        _current_page = 1;
+    </script>
+    <script src="/res/js/utils.js"></script>
+    <script src="/res/js/jukebox.js"></script>
+    <script>
+        let createXHR = function () {
+            let xhrs = [
+                function () { return new XMLHttpRequest () },
+                function () { return new ActiveXObject ("Msxml2.XMLHTTP") },
+                function () { return new ActiveXObject ("Msxml3.XMLHTTP") },
+                function () { return new ActiveXObject ("Microsoft.XMLHTTP") }
+            ];
+            let xhr = null;
+            for (let i = 0; i < xhrs.length; ++i) {
+                try {
+                    xhr = xhrs[i]();
+                } catch(e) {
+                    continue;
+                }
+                break;
+            }
+            return xhr;
+        }
+
+        let getAppdata = function () {
+            let xhr_getAppdata = createXHR();
+            let utils = new Utils();
+            let url_appdata = window.location.origin + '/res/appdata';
+            xhr_getAppdata.onload = function () {
+                if(xhr_getAppdata.status === 200 && xhr_getAppdata.responseText != null) {
+                    try {
+                        let retdata = JSON.parse(xhr_getAppdata.responseText);
+                        _appdata = retdata;
+                    }catch (e) {
+                        alert('[FATAL ERROR]严重错误:数据异常');
+                        window.stop();
+                    }
+                }else {
+                    alert('[FATAL ERROR]严重错误:无法加载页面数据');
+                    window.stop();
+                }
+            };
+            xhr_getAppdata.onerror = function () {
+
+            };
+            xhr_getAppdata.open('GET', url_appdata, false);
+            xhr_getAppdata.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            try {
+                xhr_getAppdata.send();
+            }catch (e) {
+                alert('[FATAL ERROR]严重错误:无法加载页面数据');
+                window.stop();
+            }
+
+            let _url_param = window.location.search;
+
+            if(! _url_param) {
+                window.location.href = '/';
+            }
+
+            if(_url_param[0] == '?') {
+                _url_param = _url_param.slice(1);
+            }
+
+            _param = utils.parseUrlQuery(_url_param);
+
+            document.title = _page_title + ' - ' + _appdata['app_name'];
+
+            if(! _param['key']) {
+                window.location.href = '/';
+            }
+
+            _current_key = decodeURIComponent(_param['key']);
+            _current_page = parseInt(_param['page']) || 1;
+        }
+
+        let loadLib = function() {
+
+        }
+
+        function back_to_top() {
+            document.documentElement.scrollTop = document.body.scrollTop = 0;
+        }
+
+        function init() {
+            getAppdata();
+            loadLib();
+        }
+    </script>
+    <script>
+        init();
+    </script>
+    <link rel="stylesheet" type="text/css" href="/res/css/main.css" />
+    <script src="/res/js/anime.min.js"></script>
+</head>
+<body>
+
+    <div id="main">
+        <div id="top-box">
+            <div id="btn_back_main" onclick="window.location.href='/';">
+                <a class="back-btn">
+                    <svg class="icon" viewBox="0 0 1024 1024" width="40px">
+                        <path id="svg_1" p-id="1177" fill="#FAFAFA" d="m643.08342,831.86361c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z"></path>
+                        <path transform="rotate(90, 511.56, 380.774)" id="svg_2" p-id="1177" fill="#FAFAFA" d="m642.20426,569.41072c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z"></path>
+                    </svg>
+                </a>
+                <div style="padding-left: 8px;font-size: 20px;font-weight: bold;color: #323232;">
+                    返回主页
+                </div>
+            </div>
+
+            <div id="top-title"></div>
+            <div class="search-box">
+                <input id="search_container" class="search-txt" type="text" placeholder="搜索单曲">
+                <a id="search-btn" class="search-btn">
+                    <svg class="icon" viewBox="0 0 1024 1024" width="30px"><path d="M424.024 766.098c-91.619 0-177.754-35.679-242.538-100.464-133.735-133.737-133.735-351.344 0-485.078 64.784-64.784 150.919-100.462 242.538-100.462s177.754 35.677 242.539 100.462c133.733 133.735 133.735 351.34 0 485.078-64.785 64.783-150.922 100.464-242.539 100.464zM424.024 196.085c-60.637 0-117.643 23.613-160.523 66.489-88.512 88.51-88.51 232.53 0 321.040 42.876 42.876 99.885 66.491 160.523 66.491s117.643-23.614 160.523-66.491c88.51-88.51 88.51-232.53 0-321.040-42.876-42.876-99.885-66.489-160.523-66.489z" fill="#FAFAFA" p-id="1176"></path><path d="M886.838 943.904c-14.842 0-29.684-5.663-41.010-16.986l-261.286-261.285c-22.647-22.649-22.647-59.369 0-82.018 22.647-22.647 59.37-22.647 82.018 0l261.286 261.286c22.647 22.649 22.647 59.369 0 82.018-11.325 11.322-26.167 16.985-41.010 16.985z" fill="#FAFAFA" p-id="1177"></path></svg>
+                </a>
+            </div>
+        </div>
+
+        <div id="page-search_widget">
+            <div style="text-align: center;">
+                <div id="page-search_title">词条</div>
+                <div class="subtitle">的搜索结果</div>
+            </div>
+        </div>
+
+        <div id="page-album_songs-list">
+            <div style="height: 30px;"></div>
+
+            <div id="page-search_rec-album" style="display: none;">
+                <div id="page-search_rec-album_bg"></div>
+                <div id="page-search_rec-album_poster">
+                    <div id="page-search_rec-album_poster-img"></div>
+                </div>
+                <div id="page-search_rec-album_title">专辑</div>
+                <div id="page-search_rec-album_btn">查看专辑</div>
+            </div>
+
+            <div style="height: 30px;"></div>
+            <table id="page-album_songs-table"  cellspacing="0">
+                <thead>
+                <tr>
+                    <th style="width: 300px;">曲名</th>
+                    <th style="width: 160px;">歌手</th>
+                    <th style="width: 200px;">专辑</th>
+                    <th style="width: 100px;">平台</th>
+                </tr>
+                </thead>
+                <tbody id="page-album_songs-table-tbody">
+                </tbody>
+            </table>
+
+            <div style="height: 60px;"></div>
+            <div id="page_number_bar">
+                <div id="search_page-number_btn-last" class="page_number_btn" style="width: 50px;height: 50px;">
+                    <svg class="icon" viewBox="0 0 1024 1024" width="40px">
+                        <path id="svg_1" p-id="1177" fill="#FAFAFA" d="m643.08342,831.86361c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z"></path>
+                        <path transform="rotate(90, 511.56, 380.774)" id="svg_2" p-id="1177" fill="#FAFAFA" d="m642.20426,569.41072c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z"></path>
+                    </svg>
+                </div>
+                <div style="width: 16px;"></div>
+                <div id="search_page-number" class="page_number_btn" style="width: 150px;height: 50px;">
+                    0/0
+                </div>
+                <div style="width: 16px;"></div>
+                <div id="search_page-number_btn-next" class="page_number_btn" style="width: 50px;height: 50px;">
+                    <svg class="icon" viewBox="0 0 1024 1024" width="40px" style="transform: rotate(180deg);">
+                        <path id="svg_1" p-id="1177" fill="#FAFAFA" d="m643.08342,831.86361c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z"></path>
+                        <path transform="rotate(90, 511.56, 380.774)" id="svg_2" p-id="1177" fill="#FAFAFA" d="m642.20426,569.41072c-14.842,0 -29.684,-5.663 -41.01,-16.986l-261.286,-261.285c-22.647,-22.649 -22.647,-59.369 0,-82.018c22.647,-22.647 59.37,-22.647 82.018,0l261.286,261.286c22.647,22.649 22.647,59.369 0,82.018c-11.325,11.322 -26.167,16.985 -41.01,16.985l0.002,0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="height: 60px;"></div>
+
+    </div>
+
+    <div id="widget_btn_back-top" onclick="back_to_top();">
+        回到顶部
+    </div>
+
+    <div id="page_push-song" style="display: none;">
+            <audio id="jukebox_plop_audio" src="https://sounds-static.xbottle.top/objects/ab/ab5a32b70ef1e7aafc550b20afdb7dc8c0d5d901" preload="auto" style="height: 0;width: 0;">
+            </audio>
+            <div id="page_push-song_background" style="width: 100%;height: 100%; padding: 0;position: absolute;"></div>
+            <img id="jukebox_disc" src="/res/img/disc.png"></img>
+            <div id="block_jukebox" onclick="this.cancelBubble = true;">
+                <img src="/res/img/jukebox_side.png" id="block_jukebox_1"></img>
+                <img src="/res/img/jukebox_side.png" id="block_jukebox_2"></img>
+                <img src="/res/img/jukebox_top.png" id="block_jukebox_3"></img>
+                <img src="/res/img/jukebox_side.png" id="block_jukebox_4"></img>
+                <img src="/res/img/jukebox_side.png" id="block_jukebox_5"></img>
+                <img src="/res/img/jukebox_side.png" id="block_jukebox_6"></img>
+            </div>
+            <div id="block_jukebox_title">
+                 歌曲名
+            </div>
+            <div id="block_jukebox_text">
+                <div>
+                 点击唱片机方块完成点歌
+                </div>
+                <div style="font-size:24px;">
+                 点击任意位置退出
+                </div>
+            </div>
+    </div>
+
+    <div id="box-loading" style="display: none;">
+    <div id="box-loader">
+        <div id="box-loading_obj"></div>
+    </div>
+    </div>
+
+<script>
+    document.getElementById('page-search_title').innerText = _current_key;
+</script>
+
+<script>
+    document.onmousemove = function(e) {
+        e = e || window.event;
+        if (e.pageX || e.pageY) {
+            smovex = e.pageX;
+            smovey = e.pageY;
+        }
+        windowHeight = document.documentElement.clientHeight || window.innerHeight;
+        windowWidth = document.documentElement.clientWidth || window.innerWidth;
+        movex = smovex - (windowWidth / 2);
+        movey = smovey - (windowHeight / 2);
+
+        anime({
+            targets: '#block_jukebox',
+            translateX: movex / 100,
+            //translateY: movey / 100,
+            //rotateX: -smovey / 60,
+            rotateY: movex / 60,
+            rotateX: -10,
+            duration: 1000,
+            easing: 'easeOutCirc'
+        });
+    }
+</script>
+
+<script>
+function loader_op(op) {
+    let loader = document.getElementById('box-loading');
+    switch(op) {
+        case 'display':
+            loader.style.display = '';
+            break;
+        case 'remove':
+            loader.style.display = 'none';
+            break;
+    }
+};
+function jukebox_op(song, callback) {
+        document.getElementById('page_push-song').style.display = 'flex';
+        document.getElementById('block_jukebox_title').innerText = song['mname'];
+        document.getElementById('page_push-song_background').onclick = function() {
+            document.getElementById('page_push-song').style.display = "none";
+            return;
+        };
+        document.getElementById('block_jukebox').onclick = function () {
+        //anime_disc('display');
+        //setTimeout(anime_disc('into'), 500);
+        document.getElementById('jukebox_disc').style.opacity = '1';
+        let box_anime = anime({
+          targets: '#jukebox_disc',
+          translateY: 260,
+          opacity: 0,
+          delay: 500,
+          duration: 500,
+          easing: 'easeInOutCubic',
+        });
+        box_anime.restart();
+        let audio_element = document.getElementById('jukebox_plop_audio');
+        audio_element.currentTime = 0;
+        setTimeout(function() {
+            audio_element.play();
+        }, 900);
+        setTimeout(function() {
+           callback(song);
+           document.getElementById('jukebox_disc').style.opacity = '0';
+           document.getElementById('jukebox_disc').style.transform = '';
+        }, 1200);
+
+    };
+    }
+</script>
+
+<script>
+    let utils = new Utils();
+    let jukebox = new Jukebox();
+        function orderSongs(song) {
+            let order = function () {
+                jukebox.orderSong(song, function (ret) {
+                    if(ret !== null) {
+
+                        alert('点歌成功，你排在第' + ret + '位\n歌曲审核可能导致歌曲延后播放，请耐心等待');
+                    }else {
+                        alert('点歌失败，请稍后重试');
+                    }
+                });
+            }
+              jukebox.repeatCheck(song, function (ret) {
+                if(ret !== null) {
+                    if(ret > 0) {
+                        let tconf = confirm(song['mname'] + ' 目前已有' + ret + '人次点，是否继续点歌？');
+                        if(!tconf) {
+                            return;
+                        }
+                    }
+                    jukebox_op(song, function(ret) {
+                            if(ret) {
+                                order();
+                                document.getElementById('page_push-song').style.display = "none";
+                            }else {
+                                document.getElementById('page_push-song').style.display = "none";
+                                return;
+                            }
+                        });
+                }
+            });  
+
+        }
+
+    function loadData(dat) {
+        if(! dat['songs']) {
+            return;
+        }
+        let songs = dat['songs'];
+        let songs_list_dom = document.getElementById('page-album_songs-table-tbody');
+        for(let index in songs) {
+            let song = songs[index];
+            let dom = document.createElement("tr");
+            let plat = null;
+            let mart = '';
+            if(song['platform'] === 'netease') {
+                plat = '网易云音乐';
+            }else if(song['platform'] === 'qq') {
+                plat = 'QQ音乐';
+            }else {
+                continue;
+            }
+            for(let art in song['marts']) {
+                mart = mart + '/' + song['marts'][art];
+            }
+            mart = mart.slice(1);
+            let data = `<td class="page-album_songs-table_text">${song['mname']}</td><td>${mart}</td><td>${song['malbum']}</td><td>${plat}</td>`;
+            dom.innerHTML = data;
+            songs_list_dom.appendChild(dom);
+            dom.getElementsByClassName('page-album_songs-table_text')[0].onclick = function () {
+                orderSongs(song);
+            }
+        }
+
+        let song_count_n = dat['ncount'];
+        let song_count_q = dat['qcount'];
+        let current_page = dat['page'];
+        let page_size = dat['size'];
+        let all_page_n = Math.ceil(song_count_n / page_size);
+        let all_page_q = 0;//Math.ceil(song_count_q / page_size);
+        let remind_count_n = song_count_n - (current_page * page_size);
+        let remind_count_q = song_count_q - (current_page * page_size);
+        let remind_page_n = Math.ceil(remind_count_n / page_size);
+        let remind_page_q = Math.ceil(remind_count_q / page_size);
+        let all_page = all_page_n > all_page_q ? all_page_n : all_page_q;
+        let remind_page = remind_page_n > remind_page_q ? remind_page_n : remind_page_q;
+        document.getElementById('search_page-number').innerText = current_page + '/' + all_page;
+
+        document.getElementById('search_page-number').onclick = function () {
+            let need_page = prompt('输入想跳转的页码',current_page);
+            need_page = parseInt(need_page);
+            if(isNaN(need_page)) {
+                return;
+            }
+            if(need_page < 1 || need_page > all_page) {
+                return;
+            }
+            let url_query = '';
+            for(let param in _param) {
+                if(param !== 'page') {
+                    let kv = param + '=' + _param[param];
+                    url_query = url_query + '&' + kv;
+                }
+            }
+            url_query = url_query + '&page=' + need_page;
+            url_query = url_query.slice(1);
+            window.location.href = window.location.origin + window.location.pathname + '?' + url_query;
+        }
+
+        document.getElementById('search_page-number_btn-last').onclick = function () {
+            if(Number(current_page) > 1){
+                let url_query = '';
+                for(let param in _param) {
+                    if(param !== 'page') {
+                        let kv = param + '=' + _param[param];
+                        url_query = url_query + '&' + kv;
+                    }
+                }
+                let need_page = Number(current_page) - 1;
+                url_query = url_query + '&page=' + need_page;
+                url_query = url_query.slice(1);
+                window.location.href = window.location.origin + window.location.pathname + '?' + url_query;
+            }
+        }
+
+        document.getElementById('search_page-number_btn-next').onclick = function () {
+            if(Number(remind_page) > 0){
+                let url_query = '';
+                for(let param in _param) {
+                    if(param !== 'page') {
+                        let kv = param + '=' + _param[param];
+                        url_query = url_query + '&' + kv;
+                    }
+                }
+                let need_page = Number(current_page) + 1;
+                url_query = url_query + '&page=' + need_page;
+                url_query = url_query.slice(1);
+                window.location.href = window.location.origin + window.location.pathname + '?' + url_query;
+            }
+        }
+        loader_op('remove');
+        let dom_rec_album = document.getElementById('page-search_rec-album');
+        let dom_rec_album_pimg = document.getElementById('page-search_rec-album_poster-img');
+        let dom_rec_album_title = document.getElementById('page-search_rec-album_title');
+        let dom_rec_album_btn = document.getElementById('page-search_rec-album_btn');
+        let key_array = ['原神', 'genshin', 'genshin impact', 'genshinimpact', 'hoyo-mix', 'hoyomix', '周杰伦', 'jay', 'jay chou', 'jaychou'];
+        if(key_array.indexOf(_current_key.toLocaleLowerCase()) > -1) {
+            switch (_current_key.toLocaleLowerCase()) {
+                case key_array[0]: case key_array[1]: case key_array[2]: case key_array[3]: case key_array[4]: case key_array[5]:
+                    dom_rec_album.style.display = 'flex';
+                    dom_rec_album_pimg.style.background = 'linear-gradient(to left, #9796f0FF, #9796f000), url("/res/img/poster_genshin.jpg")';
+                    dom_rec_album_pimg.style.backgroundSize = 'cover';
+                    dom_rec_album_title.innerText = '「原神」系列专辑';
+                    dom_rec_album_btn.onclick = function () {
+                        window.location.href = '/page/album?album=genshin';
+                    }
+                    break;
+                case key_array[6]: case key_array[7]: case key_array[8]: case key_array[9]:
+                    dom_rec_album.style.display = 'flex';
+                    dom_rec_album_pimg.style.background = 'linear-gradient(to left, #9796f0FF, #9796f000), url("/res/img/poster_jay.jpeg")';
+                    dom_rec_album_pimg.style.backgroundSize = 'cover';
+                    dom_rec_album_title.innerText = '「周杰伦」系列专辑';
+                    dom_rec_album_btn.onclick = function () {
+                        window.location.href = '/page/album?album=jay';
+                    }
+                    break;
+            }
+        }
+
+    }
+
+    function getData() {
+        if(isNaN(_current_page)) {
+            _current_page = 1;
+        }
+        let url = '/api/search?key=' + _current_key + '&page=' + _current_page;
+        let data = null;
+        utils.xhrSend('GET', url, {}, null, function (xhr) {
+            if(xhr.status === 200 && xhr.responseText != null){
+                try{
+                    data = JSON.parse(xhr.responseText);
+                    loadData(data);
+                }catch (e) {
+                    loader_op('remove');
+                    let retry = confirm('搜索失败，是否重试(“确定”重试，“取消”返回主页面)？');
+                    if(retry) {
+                        getData();
+                    }else {
+                        window.location.href = '/';
+                    }
+                }
+            }else{
+                loader_op('remove');
+                let retry = confirm('搜索失败，是否重试(“确定”重试，“取消”返回主页面)？');
+                if(retry) {
+                    getData();
+                }else {
+                    window.location.href = '/';
+                }
+            }
+        });
+    }
+
+    loader_op('display');
+    getData();
+</script>
+
+<script>
+    function search() {
+        let key = document.getElementById('search_container').value;
+        if(key === '') {
+            return;
+        }
+        document.location.href = '/page/search?key=' + key;
+    }
+
+    document.getElementById('search-btn').onclick = function () {
+        search();
+    };
+
+    document.getElementById('search_container').onkeydown = function (ev) {
+        if(ev.keyCode == 13) {
+            search();
+        }
+    }
+</script>
+
+</body>
+</html>

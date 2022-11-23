@@ -1,0 +1,830 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #FAFAFA;
+}
+
+#main {
+    width: 100%;
+    padding: 0;
+    background: #FAFAFA;
+}
+
+@keyframes donut-spin {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+#box-loading {
+    position: fixed;
+    right: 0;
+    top: 80px;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    background: #00000064;
+}
+
+#box-loader {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+
+#box-loading_obj {
+    display: inline-block;
+    border: 6px solid #EEEEEE;
+    border-left-color: #9796f0;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: donut-spin 1s linear infinite;
+}
+
+#page_push-song {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    background: #08080816;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#block_jukebox {
+    width: 360px;
+    height: 360px;
+    margin: 0 auto;
+    border: 0;
+    transform-style: preserve-3d;
+    position: relative;
+
+    transform:rotateX(-10deg);
+
+}
+
+#block_jukebox img{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+    border: 0;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+#block_jukebox img:nth-child(1) {
+    transform: translateZ(100px);
+}
+
+#block_jukebox img:nth-child(2) {
+    transform: translateX(100px) rotateY(-90deg);
+}
+
+#block_jukebox img:nth-child(3) {
+    transform: translateY(-100px) rotateX(90deg) rotateZ(90deg);
+}
+
+#block_jukebox img:nth-child(4) {
+    transform: translateX(-100px) rotateY(-90deg);
+}
+
+#block_jukebox img:nth-child(5) {
+    transform: translateY(100px) rotateX(90deg);
+}
+
+#block_jukebox img:nth-child(6) {
+    transform: translateZ(-100px) rotateY(-180deg);
+}
+
+#jukebox_disc {
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -400px;
+    margin-left: -70px;
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+#block_jukebox_title {
+    position: absolute;
+    top: 64px;
+    text-align: center;
+    color: #161616;
+    font-size: 52px;
+    font-weight: bold;
+}
+
+#block_jukebox_text {
+    position: absolute;
+    bottom: 64px;
+    text-align: center;
+    color: #161616;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#top-box {
+    width: 100%;
+    height: 80px;
+    background: #FAFAFA;
+    position: relative;
+}
+
+#top-title {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    align-items: center;
+    -webkit-align-items: center;
+    color: #323232;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#widget_rec-album {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 400px;
+    padding: 0;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+}
+
+#widget_rec-album_container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    position: relative;
+}
+
+#widget_rec-album_list {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#widget_rec-album_bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    align-self: center;
+    color: #EAE0EA80;
+    font-size: 80px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+
+#page-search_rec-album_title {
+    position: absolute;
+    left: 160px;
+    top: 32px;
+    color: #FAFAFA;
+    font-weight: bold;
+    font-size: 36px;
+    text-shadow: 0 0 8px #888888;
+}
+
+#page-search_rec-album_btn {
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    box-shadow: 0 0 8px #888888;
+    text-shadow: 0 0 5px #888888;
+    height: 30px;
+    border-radius: 40px;
+    padding: 10px 20px;
+    color: #FAFAFA;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+#widget_rec-album-title {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    color: #323232;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+#widget_current-list {
+    width: 100%;
+    height: 360px;
+    background: #FAFAFA;
+    position: relative;
+}
+
+#current-list_title {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    color: #323232;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+#widget_comment {
+    width: 100%;
+    height: 200px;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    position: relative;
+}
+
+#btn_back_main {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    top: 10px;
+    bottom: 10px;
+    left: 20px;
+    cursor: pointer;
+    width: 150px;
+}
+
+#widget_btn_back-top {
+    display: flex;
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    right: 0;
+    bottom: 160px;
+    color: #323232;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #888888;
+    text-shadow: 0 0 5px #888888;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: center;
+    -webkit-align-content: center;
+    padding: 16px;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    cursor: pointer;
+}
+
+#comment_title {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    -webkit-justify-content: center;
+    color: #323232;
+    font-weight: bold;
+    font-size: 32px;
+    left: 0;
+    right: 0;
+    top: 20px;
+}
+
+#page-search_widget {
+    width: 100%;
+    height: 120px;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#page-search_title {
+    color: #FAFAFA;
+    font-weight: bold;
+    font-size: 36px;
+    text-shadow: 0 0 8px #888888;
+}
+
+#page-album_widget_title {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    padding: 0;
+}
+
+#page-album_album-title {
+    position: absolute;
+    left: 400px;
+    top: 20px;
+    color: #FAFAFA;
+    font-weight: bold;
+    font-size: 36px;
+    text-shadow: 0 0 8px #888888;
+}
+
+#page-album_album-subtitle {
+    position: absolute;
+    left: 420px;
+    top: 52px;
+    color: #EAEAEA;
+    font-size: 18px;
+    text-shadow: 0 0 5px #888888;
+}
+
+#page-album_album-description {
+    position: absolute;
+    left: 460px;
+    top: 120px;
+    color: #F4F4F4;
+    font-size: 20px;
+    text-shadow: 0 0 5px #888888;
+}
+
+#page-album_album-poster_img {
+    width: 400px;
+    height: 300px;
+    padding: 0;
+}
+
+#page-album_album_search-more {
+    position: absolute;
+    bottom: 20px;
+    left: 460px;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    box-shadow: 0 0 8px #888888;
+    text-shadow: 0 0 5px #888888;
+    height: 30px;
+    border-radius: 40px;
+    padding: 10px 20px;
+    color: #FAFAFA;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+#page-album_songs-list {
+    display: grid;
+    width: 100%;
+    padding: 0;
+    justify-items: center;
+}
+
+#page-album_songs-table {
+    border: 0;
+    font-size: 18px;
+    text-align: left;
+    color: #323232;
+}
+#page-album_songs-table thead {
+    background: #9796f0;
+    color: #FAFAFA;
+    text-shadow: 0 0 5px #888888;
+    box-shadow: 0 0 5px #888888;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+}
+#page-album_songs-table th {
+    padding: 8px;
+    border: 0;
+}
+#page-album_songs-table td {
+    padding: 0 8px;
+    border: 0;
+}
+#page-album_songs-table tr {
+    height: 50px;
+}
+#page-album_songs-table-tbody {
+
+}
+
+#page-album_songs-table-tbody tr:hover {
+    background: #9796f032;
+}
+
+#page_number_bar {
+    display: flex;
+}
+
+#page-search_rec-album {
+    display: flex;
+    position: relative;
+    width: 800px;
+    height: 120px;
+    padding: 0;
+    box-shadow: 0 0 5px #888888;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#page-search_rec-album_poster {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 160px;
+    background: #9796f0;
+}
+
+#page-search_rec-album_poster-img {
+    width: 160px;
+    height: 120px;
+    padding: 0;
+}
+
+#page-search_rec-album_bg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 160px;
+    right: 0;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+}
+
+#current-list_info_box {
+    position: absolute;
+    top: 80px;
+    left: 60px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#current-list_info_song-current-name {
+    max-width: 360px;
+    min-width: 80px;
+    overflow: hidden;
+}
+
+#current-list_info_song-last-name {
+    max-width: 360px;
+    min-width: 80px;
+    overflow: hidden;
+}
+
+#current-list_info_song-next-name {
+    max-width: 360px;
+    min-width: 80px;
+    overflow: hidden;
+}
+
+.current-list_info_bar {
+    color: #FAFAFA;
+    padding: 4px 16px;
+    height: 40px;
+    text-shadow: 0 0 5px #888888;
+    box-shadow: 0 0 5px #888888;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    font-size: 20px;
+}
+
+.page_number_btn {
+    background: #9796f0;
+    color: #FAFAFA;
+    text-shadow: 0 0 5px #888888;
+    box-shadow: 0 0 5px #888888;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.page-album_songs-table_text {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.page-album_songs-table_text:hover {
+    text-shadow: 0 0 5px #9796f0;
+}
+
+.page-album_widget_bg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 400px;
+    right: 0;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+}
+
+.album_album-poster {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    background: #9796f0;
+}
+
+.rec-album-box {
+    display: flex;
+    position: relative;
+    height: 360px;
+    width: 90px;
+    background: #e0e0e0;
+    border-radius: 45px;
+    overflow: hidden;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    transition: all 500ms;
+    cursor: pointer;
+}
+
+.rec-album-box-hover {
+    display: flex;
+    position: relative;
+    height: 360px;
+    width: 90px;
+    background: #e0e0e0;
+    border-radius: 45px;
+    overflow: hidden;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    transition: all 500ms;
+}
+
+.rec-album-box-hover:hover {
+    display: flex;
+    position: relative;
+    height: 360px;
+    width: 480px;
+    background: #e0e0e0;
+    border-radius: 45px;
+    overflow: hidden;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    transition: all 500ms;
+}
+
+.rec-album-box-hover:hover>.rec-album-logo {
+    position: absolute;
+    width: 80px;
+    transition: all 500ms;
+    opacity: 0;
+}
+
+.rec-album-box-hover:hover>.rec-album-more {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
+    transition: all 500ms;
+    opacity : 1;
+}
+
+.rec-album-poster {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+.rec-album-logo {
+    position: absolute;
+    width: 80px;
+    transition: all 500ms;
+    opacity: 1;
+}
+
+.rec-album-more {
+    position: absolute;
+    left: 90px;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
+    transition: all 500ms;
+    opacity : 1;
+}
+
+.rec-album-title {
+    color: #FAFAFA;
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #888888;
+}
+
+.rec-album-subtitle {
+    color: #EAEAEA;
+    font-size: 20px;
+    text-shadow: 0 0 3px #888888;
+}
+
+.rec-album-btn {
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    width: 140px;
+    height: 50px;
+    color: #FAFAFA;
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 0 5px #AAAAE0;
+    text-shadow: 0 0 5px #888888;
+    cursor: pointer;
+}
+
+.rec-album-more-container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    position: relative;
+}
+
+.search-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+
+.search-box:hover>.search-txt{
+    width: 360px;
+    padding: 0 6px;
+}
+
+.search-txt:focus {
+    width: 360px;
+    padding: 0 6px;
+}
+
+.search-box:hover>.search-btn{
+    
+}
+
+.search-btn{
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FFFFFF00;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.search-txt{
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 18px;
+    transition: 500ms;
+    line-height: 40px;
+    width: 0;
+}
+
+.comment-box {
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.comment-txt {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 18px;
+    transition: 500ms;
+    line-height: 40px;
+    width: 360px;
+}
+
+.comment-btn {
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 30px;
+    transform: translateX(10px);
+}
+
+.comment-btn {
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 30px;
+    transform: translateX(10px);
+}
+
+.back-btn {
+    background: #9796f0;
+    background: -webkit-linear-gradient(to right, #9796f0, #fbc7d4);
+    background: linear-gradient(to right, #9796f0, #fbc7d4);
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 30px;
+}
+
+.subtitle {
+    color: #EAEAEA;
+    font-size: 18px;
+    text-shadow: 0 0 5px #888888;
+}
