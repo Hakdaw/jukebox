@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Jukebox Player</title>
+    <link rel="stylesheet" type="text/css"  href="res/css/main.css">
+    <script src="res/js/thirdparty/howler.min.js"></script>
+    <script src="res/js/utils.js"></script>
+    <script src="res/js/jukebox.js"></script>
+</head>
+<body>
+
+    <div>
+        <div id="play_box" style="display: none;">
+            <div style="width: 80%;">
+
+                <div id="player">
+                    <div id="player_title">暂未播放</div>
+                    <div id="player_control">
+                        <div id="player_btn_replay" class="player_btn" onclick="replay();">&#8635;</div>
+                        <div id="player_btn_play" tag="play" class="player_btn" onclick="playerBtn(this.getAttribute('tag'))">
+                            <div id="player_btn_icon_pause">&#9208;</div>
+                            <div id="player_btn_icon_play">&#9658;</div>
+                        </div>
+                        <div id="player_btn_next" class="player_btn" onclick="nextPlay();">&#10140;</div>
+                    </div>
+                    <div id="player_time">
+                        <div id="player_time_seek">0:00</div>
+                        <div id="player_time_total">0:00</div>
+                    </div>
+                    <div id="player_seek_wrapper">
+                        <div id="player_seek_box">
+                            <div id="player_seek_time">120</div>
+                        </div>
+                    </div>
+                    <div id="player_process_wrapper">
+                        <div id="player_process"></div>
+                    </div>
+                </div>
+
+                <div style="padding: 8px;"></div>
+
+                <div id="log_box">
+                    <div id="log_list">
+                        <!--
+                        <div class="log" tag="warn">[log]测试</div>
+                        <div class="log" tag="ok">[log]测试</div>
+                        <div class="log" tag="error">[log]测试</div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div>
+      <div id="status_box" tag="default">
+          <div id="status_icon" tag="none">
+              <div id="status_loader"></div>
+              <div id="status_info">i</div>
+              <div id="status_none">&#9873;</div>
+              <div id="status_ok">&#10004;</div>
+              <div id="status_error">&#9888;</div>
+              <div id="status_warn">&#9888;</div>
+          </div>
+          <div id="status_text">
+              空闲
+          </div>
+      </div>
+      <div id="statusmsg_box" tag="default">
+          <div id="statusmsg_icon" tag="none">
+              <div id="statusmsg_loader"></div>
+              <div id="statusmsg_info">i</div>
+              <div id="statusmsg_none">&#9873;</div>
+              <div id="statusmsg_ok">&#10004;</div>
+              <div id="statusmsg_error">&#9888;</div>
+              <div id="statusmsg_warn">&#9888;</div>
+          </div>
+          <div id="statusmsg_text">
+              消息
+          </div>
+      </div>
+  </div>
+
+  <script src="res/js/widget.js"></script>
+  <script src="res/js/index.js"></script>
+</body>
+</html>

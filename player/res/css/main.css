@@ -1,0 +1,268 @@
+@keyframes donut-spin {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+#statusmsg_box {
+    position: fixed;
+    display: none;
+    height: 60px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#status_box {
+    position: fixed;
+    display: flex;
+    height: 60px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#status_box[tag=default], #statusmsg_box[tag=default] {
+    background: #D0D0D0;
+    color: #161616;
+}
+
+#status_box[tag=normal], #statusmsg_box[tag=normal] {
+    background: #328032;
+    color: #EAEAEA;
+}
+
+#status_box[tag=warn], #statusmsg_box[tag=warn] {
+    background: #868616;
+    color: #EAEAEA;
+}
+
+#status_box[tag=error], #statusmsg_box[tag=error] {
+    background: #FA3232;
+    color: #EAEAEA;
+}
+
+#status_text, #statusmsg_text {
+    font-size: 20px;
+}
+
+#status_icon, #statusmsg_icon {
+    text-align: center;
+    padding: 0 20px;
+    font-size: 38px;
+    font-weight: bold;
+}
+
+#status_error, #status_warn, #status_loader, #status_ok, #status_info, #status_none {
+    display: none;
+}
+
+#statusmsg_error, #statusmsg_warn, #statusmsg_loader, #statusmsg_ok, #statusmsg_info, #statusmsg_none {
+    display: none;
+}
+
+#status_loader, #statusmsg_loader {
+    border: 6px solid #EEEEEE;
+    border-left-color: #9796f0;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: donut-spin 1s linear infinite;
+}
+
+#status_icon[tag=error]>#status_error, #status_icon[tag=warn]>#status_warn, #status_icon[tag=load]>#status_loader, #status_icon[tag=ok]>#status_ok, #status_icon[tag=info]>#status_info, #status_icon[tag=none]>#status_none {
+    display: block;
+}
+
+#statusmsg_icon[tag=error]>#statusmsg_error, #statusmsg_icon[tag=warn]>#statusmsg_warn, #statusmsg_icon[tag=load]>#statusmsg_loader, #statusmsg_icon[tag=ok]>#statusmsg_ok, #statusmsg_icon[tag=info]>#statusmsg_info, #statusmsg_icon[tag=none]>#statusmsg_none {
+    display: block;
+}
+
+#play_box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#player {
+    position: relative;
+    background: #323232;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #888888;
+    padding: 16px;
+    overflow: hidden;
+}
+
+#next_info {
+    position: relative;
+    background: #323232;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #888888;
+    padding: 16px;
+    overflow: hidden;
+    color: #e0e0e0;
+    font-size: 24px;
+}
+
+#log_box {
+    position: relative;
+    background: #323232;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #888888;
+    padding: 16px;
+    overflow: hidden;
+    font-size: 18px;
+    color: #e0e0e0;
+    height: 180px;
+}
+
+#log_list {
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    overflow-y: scroll;
+}
+
+.log {
+    width: 100%;
+    word-break: break-all;
+}
+
+.log[tag=ok] {
+    background: #328032D0;
+}
+
+.log[tag=warn] {
+    background: #B0B004D0;
+}
+
+.log[tag=error] {
+    background: #FA3232D0;
+}
+
+#player_process_wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 16px;
+    background: #646464;
+    box-shadow: 0 0 2px #888888;
+}
+
+#player_seek_wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    height: 32px;
+}
+
+#player_seek_box {
+    width: 100%;
+    position: relative;
+}
+
+#player_seek_time {
+    background: #16161660;
+    padding: 2px 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 3px #888888;
+    font-size: 20px;
+    position: absolute;
+    color: #d0d0d0;
+}
+
+#player_process {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #9796f0;
+}
+
+#player_title {
+    color: #e0e0e0;
+    font-size: 32px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+}
+
+#player_time {
+    position: relative;
+    width: 100%;
+    color: #c0c0c0;
+    font-size: 24px;
+    height: 32px;
+}
+#player_time_seek {
+    position: absolute;
+    left: 4px;
+}
+
+#player_seek_wrapper {
+    display: none;
+}
+
+#player_time_total {
+    position: absolute;
+    right: 4px;
+}
+
+#player_control {
+    color: #e0e0e0;
+    font-size: 36px;
+    font-weight: bold;
+    width: 100%;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player_btn {
+    display: flex;
+    cursor: pointer;
+    padding: 0 4px;
+    width: 64px;
+    height: 64px;
+    align-items: center;
+    justify-content: center;
+}
+
+#player_btn_icon_pause, #player_btn_icon_play {
+    display: none;
+}
+
+#player_btn_play[tag=play]>#player_btn_icon_play {
+    display: block;
+}
+
+#player_btn_play[tag=pause]>#player_btn_icon_pause {
+    display: block;
+}
+
+#next_song_status {
+    background: #161616;
+    padding: 4px;
+    border-radius: 4px;
+    box-shadow: 0 0 3px #888888;
+    font-size: 20px;
+}
+
+#next_song_status[tag=ok] {
+    background: #328032;
+}
+
+#next_song_status[tag=load] {
+    background: #646464;
+}
